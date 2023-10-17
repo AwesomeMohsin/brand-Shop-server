@@ -31,6 +31,23 @@ async function run() {
 
     const brandCollection = client.db('brandDB').collection('products')
 
+    // see all products
+    app.get('/products', async (req, res) => {
+      const cursor = brandCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
+
+    // find products with brand
+    app.get('/products/:brand', async (req, res) => {
+      const brand = req.params.brand;
+      const query = { brand: brand };
+      const cursor = brandCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
 
     // add a new product to database
     app.post('/products', async (req, res) => {
